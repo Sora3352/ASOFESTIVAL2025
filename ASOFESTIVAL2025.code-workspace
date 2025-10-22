@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "SSH FS - lolipop",
+			"uri": "ssh://lolipop/home/users/1/noor.jp-aso-sora3597/web"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "ASOFESTIVAL2025"
+	}
+}

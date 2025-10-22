@@ -1,0 +1,30 @@
+# PHP ファイルへの直接アクセスを拒否
+<Files "*.php">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# データベース設定ファイルへのアクセスを明示的に拒否
+<Files "db_connect.php">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# 設定ファイルやバックアップファイルへのアクセスを拒否
+<FilesMatch "\.(inc|conf|cfg|config|bak|backup|sql|log|txt)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# ディレクトリブラウジングを無効化
+Options -Indexes
+
+# 敏感な情報を含む可能性のあるファイルを保護
+<Files ~ "^\.">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# エラーページをカスタマイズ（オプション）
+ErrorDocument 403 "アクセスが拒否されました"
+ErrorDocument 404 "ページが見つかりません"

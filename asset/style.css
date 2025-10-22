@@ -1,0 +1,283 @@
+/* ===== リセット / 安定化 ===== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== ヘッダー ===== */
+header {
+    position: relative;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+}
+
+.admin-login {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    color: #2575fc;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: .3s;
+}
+
+.admin-login:hover {
+    background: #2575fc;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* ===== メイン ===== */
+.index-main {
+    background: transparent;
+    color: #fff;
+    padding: 0;
+    margin: 2rem auto 1rem;
+    max-width: 1000px;
+    width: 100%;
+    text-align: center;
+}
+
+.hero h2 {
+    color: #fff;
+}
+
+.hero p {
+    color: #eaeaf7;
+}
+
+/* ===== お知らせ（流れるバナー） ===== */
+.news-banner {
+    width: 100%;
+    /* ← 100vw は使わない */
+    overflow: hidden;
+    background: rgba(255, 255, 255, .15);
+    color: #fff;
+    font-weight: bold;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+}
+
+.news-scroll {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scrollBanner 24s linear infinite;
+    font-size: .95rem;
+}
+
+@keyframes scrollBanner {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* ===== お知らせ一覧枠 ===== */
+.news-section {
+    background: rgba(255, 255, 255, .15);
+    color: #fff;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem auto;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .25);
+}
+
+.news-section h2 {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: .8rem;
+}
+
+.news-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.news-list li {
+    border-bottom: 1px solid rgba(255, 255, 255, .2);
+    padding: .5rem 0;
+    font-size: .95rem;
+}
+
+.news-list li:last-child {
+    border-bottom: none;
+}
+
+/* ===== 企画BOX（横一列スクロール） ===== */
+.menu-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    /* 折り返し禁止 */
+    gap: 1rem;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    /* 画面端でのはみ出し防止 */
+    overflow-x: auto;
+    /* 横スクロールOK */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE */
+}
+
+.menu-container::-webkit-scrollbar {
+    display: none;
+}
+
+.menu-item {
+    flex: 0 0 150px;
+    /* 固定幅で横並び */
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: rgba(255, 255, 255, .12);
+    border: 1px solid rgba(255, 255, 255, .25);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 16px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .25);
+    transition: .3s ease-in-out;
+}
+
+.menu-item:hover {
+    background: rgba(255, 255, 255, .28);
+    transform: translateY(-5px);
+}
+
+/* ===== フッター ===== */
+footer {
+    text-align: center;
+    color: #eee;
+    margin-top: auto;
+    padding: 1rem 0;
+    font-size: .9rem;
+}
+
+/* ===== スマホ最適化 ===== */
+@media (max-width: 700px) {
+    header h1 {
+        font-size: 1.1rem;
+    }
+
+    .admin-login {
+        top: .6rem;
+        right: .6rem;
+        padding: .4rem .8rem;
+        font-size: .8rem;
+    }
+
+    .index-main {
+        margin: 1.2rem auto .6rem;
+    }
+
+    /* バナーは幅100%のまま・少し小さめに */
+    .news-banner {
+        padding: .4rem 0;
+        background: rgba(255, 255, 255, .2);
+    }
+
+    .news-scroll {
+        font-size: .9rem;
+        animation: scrollBanner 15s linear infinite;
+        padding-left: 100%;
+    }
+
+    /* お知らせ枠は端までフィット */
+    .news-section {
+        width: 95%;
+        max-width: none;
+        padding: .8rem 1rem;
+        margin: 1rem auto;
+        border-radius: 10px;
+    }
+
+    .news-section h2 {
+        font-size: 1rem;
+        margin-bottom: .6rem;
+    }
+
+    .news-list li {
+        font-size: .85rem;
+        padding: .4rem 0;
+    }
+
+    /* 企画BOX：指でスワイプしやすく */
+    .menu-container {
+        gap: .8rem;
+        padding: 1rem;
+    }
+
+    .menu-item {
+        flex: 0 0 130px;
+        height: 70px;
+        font-size: .9rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+    }
+}
+
+.entry-button-wrap {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 50px;
+}
+
+.entry-btn {
+    display: inline-block;
+    padding: 14px 40px;
+    background: linear-gradient(90deg, #ff4d4d, #ff7b00);
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.entry-btn:hover {
+    background: linear-gradient(90deg, #ff7b00, #ff4d4d);
+    transform: translateY(-3px);
+}

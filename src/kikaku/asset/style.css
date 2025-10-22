@@ -1,0 +1,123 @@
+/* ==== 基本設定 ==== */
+body {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    background: #faf8ff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* ==== ヘッダー ==== */
+header {
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+}
+
+.back-btn {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.8rem;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    transform: scale(1.2);
+}
+
+/* ==== メインコンテンツ ==== */
+.project-page {
+    width: 90%;
+    max-width: 800px;
+    margin: 1.5rem auto 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+}
+
+/* ==== ヒーロー画像と説明 ==== */
+.project-hero {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.project-img {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 16px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    margin-bottom: 1rem;
+}
+
+.project-hero p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+/* ==== 詳細セクション ==== */
+.project-detail {
+    margin-bottom: 2rem;
+}
+
+.project-detail h2 {
+    border-left: 6px solid #6a11cb;
+    padding-left: 0.5rem;
+    color: #333;
+}
+
+.project-detail ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.project-detail li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #ddd;
+}
+
+/* ==== ENTRYボタン ==== */
+.entry-button-wrap {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.entry-btn {
+    display: inline-block;
+    padding: 12px 36px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(90deg, #ff4d4d, #ff7b00);
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    transition: 0.3s;
+}
+
+.entry-btn:hover {
+    background: linear-gradient(90deg, #ff7b00, #ff4d4d);
+    transform: translateY(-2px);
+}
+
+/* ==== フッター ==== */
+footer {
+    text-align: center;
+    padding: 1.5rem 0;
+    font-size: 0.9rem;
+    color: #666;
+}
