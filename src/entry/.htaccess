@@ -1,0 +1,2 @@
+# 環境変数にメールパスワードを設定
+SetEnv SMTP_PASS Haruki2006-0325

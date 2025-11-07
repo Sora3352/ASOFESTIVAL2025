@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = $user['role'];
                 $_SESSION['name'] = $user['name'];
+                $_SESSION['project'] = $user['project']; ;
                 
 
                 // ✅ 成功ログをaction_logsに記録

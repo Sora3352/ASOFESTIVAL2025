@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>麻生祭 バグ報告フォーム</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            margin: 40px;
+            background: #fafafa;
+            color: #222;
+        }
+
+        h1 {
+            color: #4b0082;
+        }
+
+        label {
+            display: block;
+            margin-top: 1em;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 20px;
+            background: #4b0082;
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #6a0dad;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🪲 麻生祭 バグ報告フォーム</h1>
+    <p>サイトで見つけた不具合や不便な点を教えてください。<br>
+        匿名でも構いませんが、可能であれば学籍番号または名前を記入してください。</p>
+
+    <label for="reporter">学籍番号 または 名前（任意）</label>
+    <input id="reporter" type="text" placeholder="例: 2400000 または 麻生 太郎">
+
+    <label for="page">不具合が起きたページ</label>
+    <input id="page" type="text" placeholder="例: エントリーページ">
+
+    <label for="message">不具合の内容</label>
+    <textarea id="message" placeholder="例: 送信ボタンが反応しません"></textarea>
+
+    <button id="submit">送信する</button>
+
+    <script>
+        document.getElementById('submit').addEventListener('click', async () => {
+            const reporter = document.getElementById('reporter').value.trim();
+            const page = document.getElementById('page').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            if (!page || !message) {
+                alert('ページ名と内容を入力してください。');
+                return;
+            }
+
+            try {
+                const res = await fetch('master/bug_report_save.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ reporter, page, message })
+                });
+
+                if (res.ok) {
+                    alert('報告を送信しました。ご協力ありがとうございます！');
+                    window.location.href = 'index.php'; // ✅ OK押したらトップへ戻る
+                } else {
+                    alert('送信に失敗しました。もう一度お試しください。');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('通信エラーが発生しました。再度お試しください。');
+            }
+        });
+    </script>
+</body>
+
+</html>

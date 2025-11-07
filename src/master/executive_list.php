@@ -44,7 +44,7 @@ $keyword = $_GET['keyword'] ?? '';
 $message = $_GET['message'] ?? '';
 
 // ===== SQL組み立て =====
-$sql = "SELECT id, name, username AS student_id, email, class, project, role FROM admins WHERE 1=1";
+$sql = "SELECT id, name, username AS student_id, email, class, project, role, strap, idcase FROM admins WHERE 1=1";
 
 if ($selected_project && $selected_project !== 'all') {
     $sql .= " AND project = :project";
@@ -161,7 +161,7 @@ function canEdit($currentRole)
                 <option value="all">全ての企画</option>
                 <option value="ビンゴ" <?= $selected_project === 'ビンゴ' ? 'selected' : '' ?>>ビンゴ</option>
                 <option value="カラオケ" <?= $selected_project === 'カラオケ' ? 'selected' : '' ?>>カラオケ</option>
-                <option value="ラムネ" <?= $selected_project === 'ラムネ' ? 'selected' : '' ?>>ラムネ</option>
+                <option value="ラムネ早飲み" <?= $selected_project === 'ラムネ早飲み' ? 'selected' : '' ?>>ラムネ早飲み</option>
                 <option value="射的" <?= $selected_project === '射的' ? 'selected' : '' ?>>射的</option>
                 <option value="スマブラ" <?= $selected_project === 'スマブラ' ? 'selected' : '' ?>>スマブラ</option>
             </select>
@@ -183,45 +183,46 @@ function canEdit($currentRole)
                         <th>クラス</th>
                         <th>担当企画</th>
                         <th>役職</th>
+                        <th>ストラップ</th> <!-- ✅ 追加 -->
+                        <th>IDケース</th> <!-- ✅ 追加 -->
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (!empty($members)): ?>
-                        <?php foreach ($members as $m): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($m['id']) ?></td>
-                                <td><?= htmlspecialchars($m['name']) ?></td>
-                                <td><?= htmlspecialchars($m['student_id']) ?></td>
-                                <td><?= htmlspecialchars($m['email']) ?></td>
-                                <td><?= htmlspecialchars($m['class']) ?></td>
-                                <td><?= htmlspecialchars($m['project']) ?></td>
-                                <td><?= htmlspecialchars(convertRole($m['role'])) ?></td>
-                                <td>
-                                    <?php if (canEdit($currentRole)): ?>
-                                        <a href="executive_edit.php?id=<?= $m['id'] ?>" class="edit-btn">編集</a>
-                                    <?php else: ?>
-                                        <span style="color:#aaa;">－</span>
-                                    <?php endif; ?>
-
-                                    <?php if (in_array($currentRole, ['chief', 'vice', 'teacher', 'core'], true)): ?>
-                                        <form method="POST" style="display:inline;">
-                                            <input type="hidden" name="delete_id" value="<?= $m['id'] ?>">
-                                            <button type="submit" class="delete-btn" onclick="return confirm('本当に削除しますか？');">
-                                                削除
-                                            </button>
-                                        </form>
-                                    <?php else: ?>
-                                        <span style="color:#aaa;">－</span>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
+                    <?php foreach ($members as $m): ?>
                         <tr>
-                            <td colspan="8" style="text-align:center;">登録された実行委員はいません。</td>
+                            <td><?= htmlspecialchars($m['id']) ?></td>
+                            <td><?= htmlspecialchars($m['name']) ?></td>
+                            <td><?= htmlspecialchars($m['student_id']) ?></td>
+                            <td><?= htmlspecialchars($m['email']) ?></td>
+                            <td><?= htmlspecialchars($m['class']) ?></td>
+                            <td><?= htmlspecialchars($m['project']) ?></td>
+                            <td><?= htmlspecialchars(convertRole($m['role'])) ?></td>
+
+                            <!-- ✅ ストラップとIDケースの受け取り状況を表示 -->
+                            <td style="text-align:center;"><?= $m['strap'] ? '✅' : '❌' ?></td>
+                            <td style="text-align:center;"><?= $m['idcase'] ? '✅' : '❌' ?></td>
+
+                            <td>
+                                <?php if (canEdit($currentRole)): ?>
+                                    <a href="executive_edit.php?id=<?= $m['id'] ?>" class="edit-btn">編集</a>
+                                <?php else: ?>
+                                    <span style="color:#aaa;">－</span>
+                                <?php endif; ?>
+
+                                <?php if (in_array($currentRole, ['chief', 'vice', 'teacher', 'core'], true)): ?>
+                                    <form method="POST" style="display:inline;">
+                                        <input type="hidden" name="delete_id" value="<?= $m['id'] ?>">
+                                        <button type="submit" class="delete-btn" onclick="return confirm('本当に削除しますか？');">
+                                            削除
+                                        </button>
+                                    </form>
+                                <?php else: ?>
+                                    <span style="color:#aaa;">－</span>
+                                <?php endif; ?>
+                            </td>
                         </tr>
-                    <?php endif; ?>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
