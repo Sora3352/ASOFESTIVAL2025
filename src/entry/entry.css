@@ -1,70 +1,164 @@
+/* =============================
+   ASO FESTIVAL 2025 ENTRY PAGE
+   Theme: Purple × White
+   Author: 井上遥喜
+   ============================= */
+
+/* 全体レイアウト */
 body {
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    background: #f9f9f9;
-    padding: 2rem;
+    font-family: "Helvetica Neue", "Noto Sans JP", sans-serif;
+    background: #f8f6fc;
+    margin: 0;
+    padding: 0;
+    color: #333;
 }
 
+/* フォーム全体 */
 form {
-    max-width: 400px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 2rem auto;
+    background: #ffffff;
+    padding: 2rem 1.8rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(106, 13, 173, 0.15);
 }
 
+/* 見出し */
 h1 {
     text-align: center;
-    margin-bottom: 1.5rem;
-    color: #4b0082;
+    color: #6a0dad;
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
 }
 
+/* ラベル */
 label {
     display: block;
-    margin-top: 1rem;
-}
-
-input,
-select,
-button {
-    width: 100%;
-    padding: 0.6rem;
-    margin-top: 0.3rem;
-    font-size: 1rem;
-}
-
-select {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path fill='gray' d='M6 8L0 0h12z'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 0.8rem center;
-    background-size: 0.8rem;
-    padding-right: 2rem;
-}
-
-select optgroup {
     font-weight: bold;
     color: #4b0082;
-    background-color: #f0f0f5;
+    margin-top: 1rem;
+    margin-bottom: 0.3rem;
 }
 
-select option {
-    padding-left: 10px;
+/* 入力・選択欄 */
+input[type="text"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1.5px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.2s;
+    box-sizing: border-box;
 }
 
-button {
-    background: #4b0082;
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #8a2be2;
+    box-shadow: 0 0 4px rgba(138, 43, 226, 0.4);
+}
+
+/* セレクトアイコン */
+select {
+    background-color: #fff;
+    background-image: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='10'><polygon points='0,0 14,0 7,10' fill='%236A0DAD'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    appearance: none;
+}
+
+/* チェックボックス部分 */
+.checkbox-group {
+    margin-top: 1.2rem;
+    background: #f7f2ff;
+    border-radius: 10px;
+    padding: 1rem;
+    border: 1px solid #e0d4f7;
+}
+
+.checkbox-group label {
+    font-weight: normal;
+    color: #333;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.6rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 0.6rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    accent-color: #6a0dad;
+}
+
+/* 送信ボタン */
+button,
+input[type="submit"] {
+    display: block;
+    width: 100%;
+    margin-top: 1.8rem;
+    padding: 0.9rem;
+    background: linear-gradient(135deg, #6a0dad, #8a2be2);
     color: #fff;
+    font-size: 1.1rem;
     border: none;
-    border-radius: 5px;
-    margin-top: 1.5rem;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: 0.3s;
 }
 
-button:hover {
-    background: #663399;
+button:hover,
+input[type="submit"]:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* 2人目の出場者フォーム */
+#second-player {
+    background: #faf7ff;
+    border: 1px solid #e0d4f7;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 1.2rem;
+}
+
+#second-player h3 {
+    font-size: 1.1rem;
+    color: #6a0dad;
+    margin-bottom: 0.6rem;
+}
+
+/* 注意・案内テキスト */
+.notice {
+    font-size: 0.95rem;
+    color: #5a5a5a;
+    background: #f3f0ff;
+    border-left: 4px solid #6a0dad;
+    padding: 0.8rem 1rem;
+    margin-top: 1rem;
+    border-radius: 6px;
+}
+
+/* スマホ対応 */
+@media (max-width: 600px) {
+    form {
+        padding: 1.5rem 1rem;
+        border-radius: 12px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    label {
+        font-size: 0.95rem;
+    }
+
+    input,
+    select,
+    button {
+        font-size: 1rem;
+    }
 }

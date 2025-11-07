@@ -13,11 +13,11 @@ body {
 
 body {
     font-family: "Helvetica Neue", Arial, sans-serif;
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
     color: #fff;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background: #000;
 }
 
 /* ===== ヘッダー ===== */
@@ -28,6 +28,7 @@ header {
     text-align: center;
     padding: 1rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
 }
 
 header h1 {
@@ -77,7 +78,6 @@ header h1 {
 /* ===== お知らせ（流れるバナー） ===== */
 .news-banner {
     width: 100%;
-    /* ← 100vw は使わない */
     overflow: hidden;
     background: rgba(255, 255, 255, .15);
     color: #fff;
@@ -137,23 +137,18 @@ header h1 {
     border-bottom: none;
 }
 
-/* ===== 企画BOX（横一列スクロール） ===== */
+/* ===== 企画BOX ===== */
 .menu-container {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-around;
     align-items: center;
     flex-wrap: nowrap;
-    /* 折り返し禁止 */
     gap: 1rem;
     width: 100%;
     padding: 1rem 1.25rem;
-    /* 画面端でのはみ出し防止 */
     overflow-x: auto;
-    /* 横スクロールOK */
     scrollbar-width: none;
-    /* Firefox */
     -ms-overflow-style: none;
-    /* IE */
 }
 
 .menu-container::-webkit-scrollbar {
@@ -162,7 +157,6 @@ header h1 {
 
 .menu-item {
     flex: 0 0 150px;
-    /* 固定幅で横並び */
     height: 90px;
     display: flex;
     align-items: center;
@@ -171,7 +165,6 @@ header h1 {
     background: rgba(255, 255, 255, .12);
     border: 1px solid rgba(255, 255, 255, .25);
     backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
     border-radius: 16px;
     color: #fff;
     font-weight: bold;
@@ -186,78 +179,7 @@ header h1 {
     transform: translateY(-5px);
 }
 
-/* ===== フッター ===== */
-footer {
-    text-align: center;
-    color: #eee;
-    margin-top: auto;
-    padding: 1rem 0;
-    font-size: .9rem;
-}
-
-/* ===== スマホ最適化 ===== */
-@media (max-width: 700px) {
-    header h1 {
-        font-size: 1.1rem;
-    }
-
-    .admin-login {
-        top: .6rem;
-        right: .6rem;
-        padding: .4rem .8rem;
-        font-size: .8rem;
-    }
-
-    .index-main {
-        margin: 1.2rem auto .6rem;
-    }
-
-    /* バナーは幅100%のまま・少し小さめに */
-    .news-banner {
-        padding: .4rem 0;
-        background: rgba(255, 255, 255, .2);
-    }
-
-    .news-scroll {
-        font-size: .9rem;
-        animation: scrollBanner 15s linear infinite;
-        padding-left: 100%;
-    }
-
-    /* お知らせ枠は端までフィット */
-    .news-section {
-        width: 95%;
-        max-width: none;
-        padding: .8rem 1rem;
-        margin: 1rem auto;
-        border-radius: 10px;
-    }
-
-    .news-section h2 {
-        font-size: 1rem;
-        margin-bottom: .6rem;
-    }
-
-    .news-list li {
-        font-size: .85rem;
-        padding: .4rem 0;
-    }
-
-    /* 企画BOX：指でスワイプしやすく */
-    .menu-container {
-        gap: .8rem;
-        padding: 1rem;
-    }
-
-    .menu-item {
-        flex: 0 0 130px;
-        height: 70px;
-        font-size: .9rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
-    }
-}
-
+/* ===== エントリーボタン ===== */
 .entry-button-wrap {
     text-align: center;
     margin-top: 40px;
@@ -280,4 +202,328 @@ footer {
 .entry-btn:hover {
     background: linear-gradient(90deg, #ff7b00, #ff4d4d);
     transform: translateY(-3px);
+}
+
+/* ===== フッター ===== */
+footer {
+    text-align: center;
+    color: #eee;
+    margin-top: auto;
+    padding: 1rem 0;
+    font-size: .9rem;
+}
+
+/* ===== 背景アニメーション（Edge安定版） ===== */
+.poster-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.poster-track {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    will-change: transform;
+}
+
+.poster-track img {
+    height: 100vh;
+    width: auto;
+    object-fit: cover;
+    flex-shrink: 0;
+    transform: translateZ(0);
+}
+
+header,
+.index-main,
+footer {
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    border-radius: 10px;
+}
+
+/* ===== 実行委員ログイン（スマホ対応） ===== */
+
+/* デフォルト（PC・タブレット） */
+.admin-login {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    color: #2575fc;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: .3s;
+}
+
+.admin-login:hover {
+    background: #2575fc;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* スマホでは🔐だけにする */
+@media screen and (max-width: 600px) {
+    .admin-login {
+        padding: 0.5rem;
+        border-radius: 50%;
+        width: 2.6rem;
+        height: 2.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        position: absolute;
+        top: 0.8rem;
+        right: 0.8rem;
+        background: rgba(255, 255, 255, 0.95);
+        color: #4b0082;
+        overflow: hidden;
+    }
+
+    /* 「実行委員用」の文字を隠す */
+    .admin-login {
+        text-indent: -9999px;
+    }
+
+    /* 🔐を表示する */
+    .admin-login::before {
+        content: "🔐";
+        text-indent: 0;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.6rem;
+    }
+
+    .admin-login:hover {
+        background: #4b0082;
+        color: #fff;
+        transform: scale(1.05);
+    }
+}
+
+/* ===== ハンバーガーメニュー（≡ → ✖） ===== */
+.menu-toggle {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 32px;
+    height: 26px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 2001;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0;
+}
+
+.menu-toggle span {
+    display: block;
+    height: 3px;
+    background: #fff;
+    border-radius: 2px;
+    transition: all 0.4s ease;
+}
+
+/* ✖ アニメーション */
+.menu-toggle.active span:nth-child(1) {
+    transform: translateY(11px) rotate(45deg);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: translateY(-11px) rotate(-45deg);
+}
+
+/* ===== 全体メニュー ===== */
+.global-nav {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 75%;
+    max-width: 280px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    transition: left 0.3s ease;
+    padding-top: 5rem;
+    z-index: 2000;
+}
+
+.global-nav.open {
+    left: 0;
+}
+
+.global-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.global-nav li {
+    margin: 1.5rem 0;
+    text-align: left;
+    padding-left: 2rem;
+}
+
+.global-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    display: block;
+    transition: color 0.3s;
+}
+
+.global-nav a:hover {
+    color: #b388ff;
+}
+
+/* ===== 背景半透明オーバーレイ ===== */
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1500;
+}
+
+.overlay.show {
+    display: block;
+}
+
+/* ===== サブメニュー共通スタイル ===== */
+.has-submenu {
+    position: relative;
+}
+
+.submenu-toggle {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    padding: 0;
+    transition: 0.3s;
+}
+
+.submenu-toggle:hover {
+    color: #b388ff;
+}
+
+.submenu {
+    display: block;
+    /* JS制御に合わせるため block に */
+    max-height: 0;
+    /* 閉じるとき高さ0 */
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition:
+        max-height .35s ease,
+        opacity .25s ease,
+        transform .35s ease;
+    will-change: max-height, opacity, transform;
+    list-style: none;
+    padding-left: 1.5rem;
+    margin: 0;
+}
+
+.submenu li {
+    margin: 0.5rem 0;
+}
+
+.submenu a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 1rem;
+    display: block;
+    transition: color 0.2s;
+}
+
+.submenu a:hover {
+    color: #fff;
+}
+
+/* 展開時 */
+.has-submenu.open .submenu {
+    display: block;
+}
+
+/* ▼→▲ 切り替え */
+.has-submenu .submenu-toggle::after {
+    content: " ▼";
+    font-size: 0.9rem;
+}
+
+.has-submenu.open .submenu-toggle::after {
+    content: " ▲";
+}
+
+/* 項目をちょい遅らせて出す（ふわっと） */
+.submenu>li {
+    opacity: 0;
+    transform: translateY(-2px);
+    transition: opacity .25s ease, transform .35s ease;
+}
+
+/* 展開時 */
+.has-submenu.open .submenu {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 子要素の段階的表示（stagger） */
+.has-submenu.open .submenu>li {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.has-submenu.open .submenu>li:nth-child(1) {
+    transition-delay: .05s;
+}
+
+.has-submenu.open .submenu>li:nth-child(2) {
+    transition-delay: .08s;
+}
+
+.has-submenu.open .submenu>li:nth-child(3) {
+    transition-delay: .11s;
+}
+
+.has-submenu.open .submenu>li:nth-child(4) {
+    transition-delay: .14s;
+}
+
+.has-submenu.open .submenu>li:nth-child(5) {
+    transition-delay: .17s;
+}
+
+/* ▼→▲ は前回のままでOK */
+
+/* アニメ控えめ派への配慮 */
+@media (prefers-reduced-motion: reduce) {
+
+    .submenu,
+    .submenu>li {
+        transition: none !important;
+    }
 }

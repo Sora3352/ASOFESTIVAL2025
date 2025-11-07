@@ -38,6 +38,7 @@ header h1 {
     transform: scale(1.2);
 }
 
+
 /* ==== メインコンテンツ ==== */
 .project-page {
     width: 90%;
@@ -90,29 +91,59 @@ header h1 {
     border-bottom: 1px solid #ddd;
 }
 
-/* ==== ENTRYボタン ==== */
+/* ==== ENTRYボタンエリア ==== */
 .entry-button-wrap {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem;
     margin-top: 2rem;
+    flex-wrap: wrap;
+    /* スマホ時は縦並び */
 }
 
+/* ==== ENTRYボタンエリア ==== */
+.entry-button-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    /* スマホ時は縦並び */
+}
+
+/* ==== ENTRYボタンエリア ==== */
+.entry-button-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem;
+    margin-top: 2rem;
+    flex-wrap: nowrap;
+    /* ✅ スマホでも横並び維持 */
+}
+
+/* ==== 大会ENTRYボタン ==== */
 .entry-btn {
     display: inline-block;
-    padding: 12px 36px;
+    background: linear-gradient(90deg, #ff512f, #f09819);
+    color: #fff;
+    padding: 14px 36px;
+    border-radius: 50px;
     font-size: 1.2rem;
     font-weight: bold;
-    color: #fff;
-    background: linear-gradient(90deg, #ff4d4d, #ff7b00);
-    border-radius: 50px;
     text-decoration: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-    transition: 0.3s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transition: 0.25s ease;
 }
 
 .entry-btn:hover {
-    background: linear-gradient(90deg, #ff7b00, #ff4d4d);
     transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
 }
+
+
 
 /* ==== フッター ==== */
 footer {
