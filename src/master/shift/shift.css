@@ -1,176 +1,184 @@
-/* ========== 共通リセット ========== */
-body {
-    background: #fafafa;
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    color: #333;
-    margin: 0;
-    padding: 0;
+/* ここにCSSを追加 */
+/* === Mobile-first === */
+:root {
+    --primary: #5b4cff;
+    --danger: #ff5252;
+    --muted: #666;
 }
 
-h1 {
-    text-align: center;
-    color: #6b4fa3;
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-    font-size: 1.2rem;
-}
-
-.container {
-    max-width: 700px;
-    margin: 1.5rem auto;
-    background: #fff;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* ========== フォーム系 ========== */
-label {
-    display: block;
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 0.3rem;
-}
-
-input,
-select,
-textarea {
-    width: 100%;
-    max-width: 260px;
-    padding: 0.45rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 0.9rem;
+* {
     box-sizing: border-box;
 }
 
-select {
-    background-color: #fff;
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
+    background: #fafafa;
+    color: #111;
 }
 
-input[type="time"] {
-    width: 90px;
-}
-
-/* 行間・見やすさ */
-.day-block {
-    border-bottom: 1px solid #eee;
-    padding: 0.8rem 0;
-    margin-bottom: 0.5rem;
-}
-
-/* ========== ボタン ========== */
-button {
-    padding: 0.6rem 1.2rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 0.9rem;
-}
-
-button.submit-btn {
-    background: #6b4fa3;
-    color: #fff;
+.container {
     width: 100%;
-    max-width: 300px;
-    display: block;
-    margin: 1.2rem auto 0;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 16px;
 }
 
-/* 戻るボタン */
-a.back-btn {
-    display: inline-block;
-    margin-top: 1rem;
-    color: #6b4fa3;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 0.9rem;
+h1 {
+    font-size: 1.25rem;
+    margin: 8px 0 12px;
 }
 
-/* ========== テーブル（一覧用） ========== */
-table {
+h2 {
+    font-size: 1.1rem;
+    margin: 16px 0 8px;
+}
+
+.row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 8px 0;
+}
+
+.select,
+.input,
+.textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.textarea {
+    min-height: 96px;
+    resize: vertical;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+}
+
+.btn.primary {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+.btn.danger {
+    background: var(--danger);
+    color: #fff;
+    border-color: var(--danger);
+}
+
+.btn:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.notice {
+    background: #fff3cd;
+    color: #664d03;
+    padding: 10px 12px;
+    border-radius: 12px;
+}
+
+.help {
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    padding: 12px;
+}
+
+.card+.card {
+    margin-top: 10px;
+}
+
+/* ラジオの並び */
+.inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 12px;
+}
+
+/* テーブルはタブレット以上でだけ表示、スマホはカードで縦積み */
+.table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 1rem;
-    font-size: 0.9rem;
+    display: none;
 }
 
-th,
-td {
-    border: 1px solid #ccc;
-    padding: 0.4rem;
+.table th,
+.table td {
+    border: 1px solid #eee;
+    padding: 8px;
     text-align: center;
 }
 
-th {
-    background: #6b4fa3;
-    color: #fff;
+.table th {
+    background: #f8f8ff;
 }
 
-/* ========== フィルターエリア ========== */
-.filter-form {
+.badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: .8rem;
+}
+
+.badge.ok {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.badge.ng {
+    background: #ffebee;
+    color: #c62828;
+}
+
+/* 申請一覧のカード表示（デフォ） */
+.req-item {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 6px;
+}
+
+.req-head {
+    font-weight: 700;
+}
+
+.req-tags {
     display: flex;
+    gap: 6px;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.4rem;
-    margin-bottom: 1rem;
 }
 
-.filter-form select,
-.filter-form input {
-    padding: 0.4rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 0.85rem;
+.select[multiple] {
+    min-height: 120px;
 }
 
-.filter-form button {
-    background: #6b4fa3;
-    color: #fff;
-    border: none;
-    padding: 0.4rem 1rem;
-    border-radius: 5px;
-    font-size: 0.85rem;
-}
-
-/* ========== スマホ最適化 ========== */
-@media screen and (max-width: 768px) {
-    .container {
-        width: 90%;
-        padding: 1rem;
+/* 768px以上で表形式に切替 */
+@media (min-width: 768px) {
+    .table {
+        display: table;
     }
 
-    h1 {
-        font-size: 1.1rem;
-    }
-
-    label {
-        font-size: 0.85rem;
-    }
-
-    input,
-    select,
-    textarea {
-        max-width: 200px;
-        font-size: 0.85rem;
-    }
-
-    input[type="time"] {
-        width: 80px;
-    }
-
-    .day-block {
-        padding: 0.6rem 0;
-    }
-
-    button.submit-btn {
-        width: 100%;
-        max-width: none;
-    }
-
-    .filter-form {
-        flex-direction: column;
-        align-items: stretch;
+    .list-mobile {
+        display: none;
     }
 }

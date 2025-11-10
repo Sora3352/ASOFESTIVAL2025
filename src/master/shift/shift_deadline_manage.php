@@ -2,148 +2,72 @@
 session_start();
 require_once('../../../asset/db_connect.php');
 
-// 管理者のみ
-if (!isset($_SESSION['username']) || !in_array($_SESSION['role'], ['chief', 'vice', 'teacher', 'core'], true)) {
-    header('Location: ../master_menu.php');
+if (!isset($_SESSION['username'])) {
+    header('Location: ../login.php');
     exit();
 }
-
-// ===== DBテーブル（未作成対策：一度だけ作成） =====
-$pdo->exec("
-CREATE TABLE IF NOT EXISTS shift_deadlines (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    week_start DATE NOT NULL UNIQUE,
-    deadline_date DATE NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-");
-
-// ===== 今週〜2025/12/15までの週リスト =====
-$today = new DateTime();
-$end_target = new DateTime('2025-12-15');
-
-$weeks = [];
-$start = (clone $today)->modify('monday this week');
-while ($start <= $end_target) {
-    $end = (clone $start)->modify('+6 days');
-    $weeks[] = [
-        'label' => $start->format('Y/m/d') . '〜' . $end->format('m/d'),
-        'value' => $start->format('Y-m-d'),
-    ];
-    $start->modify('+1 week');
+$role = $_SESSION['role'] ?? 'member';
+if (!in_array($role, ['chief', 'vice', 'teacher', 'core'], true)) {
+    die('権限がありません');
 }
 
-// ===== 保存処理（週開始日をキーにする方式） =====
-$error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        // 例: $_POST['deadline_date']['2025-12-15'] = '2025-12-05'
-        $deadlines = $_POST['deadline_date'] ?? [];
-
-        $stmt = $pdo->prepare("
-            INSERT INTO shift_deadlines (week_start, deadline_date)
-            VALUES (:week_start, :deadline_date)
-            ON DUPLICATE KEY UPDATE deadline_date = VALUES(deadline_date)
-        ");
-
-        foreach ($deadlines as $week_start => $deadline_date) {
-            $deadline_date = trim($deadline_date ?? '');
-            if ($deadline_date === '')
-                continue; // 未入力はスキップ
-            $stmt->execute([
-                ':week_start' => $week_start,
-                ':deadline_date' => $deadline_date,
-            ]);
-        }
-        header('Location: shift_deadline_manage.php?updated=1');
-        exit();
-    } catch (Throwable $e) {
-        $error = $e->getMessage();
+    if (!empty($_POST['project']) && !empty($_POST['deadline'])) {
+        $sql = "INSERT INTO shift_deadlines(project,deadline,is_active)
+            VALUES(:p,:d,1)
+            ON DUPLICATE KEY UPDATE deadline=VALUES(deadline), is_active=1";
+        $st = $pdo->prepare($sql);
+        $st->execute([':p' => $_POST['project'], ':d' => $_POST['deadline']]);
+    }
+    if (!empty($_POST['deactivate_id'])) {
+        $st = $pdo->prepare("UPDATE shift_deadlines SET is_active=0 WHERE id=:id");
+        $st->execute([':id' => (int) $_POST['deactivate_id']]);
     }
 }
 
-// ===== 既存データの読み込み（※2カラム限定でOK） =====
-$rows = $pdo->query("SELECT week_start, deadline_date FROM shift_deadlines")
-    ->fetchAll(PDO::FETCH_KEY_PAIR); // ['YYYY-mm-dd' => 'YYYY-mm-dd']
+$rows = $pdo->query("SELECT * FROM shift_deadlines ORDER BY project")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
     <meta charset="UTF-8">
-    <title>シフト提出締切管理</title>
-    <link rel="stylesheet" href="shift.css">
-    <style>
-        input[type="date]{width:180px;padding:.4rem;}
- table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-
-        th,
-        td {
-            border: 1px solid #ccc;
-            padding: .5rem;
-            text-align: center;
-        }
-
-        th {
-            background: #6b4fa3;
-            color: #fff;
-        }
-
-        .notice {
-            color: #666;
-            font-size: .9rem;
-            text-align: center;
-            margin-top: .5rem;
-        }
-    </style>
+    <title>申請〆切管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="shift.css?v=3">
 </head>
 
 <body>
     <div class="container">
-        <h1>📆 シフト週別締切管理</h1>
+        <h1>申請〆切管理（12/17・12/18共通）</h1>
 
-        <?php if (isset($_GET['updated'])): ?>
-            <p style="color:green;text-align:center;">✅ 締切を更新しました。</p>
-        <?php endif; ?>
-        <?php if ($error): ?>
-            <p style="color:#c00;text-align:center;">エラー: <?= htmlspecialchars($error) ?></p>
-        <?php endif; ?>
-
-        <form method="post">
-            <table>
-                <thead>
-                    <tr>
-                        <th>週（開始日）</th>
-                        <th>締切日</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($weeks as $w):
-                        $week = $w['value'];
-                        $val = $rows[$week] ?? '';
-                        ?>
-                        <tr>
-                            <td><?= htmlspecialchars($w['label']) ?><br><small><?= htmlspecialchars($week) ?></small></td>
-                            <td>
-                                <!-- 週開始日を name のキーにする -->
-                                <input type="date" name="deadline_date[<?= htmlspecialchars($week) ?>]"
-                                    value="<?= htmlspecialchars($val) ?>">
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-            <div class="notice">※ 未入力の週は保存時スキップされます（既存設定は保持）。</div>
-            <br>
-            <button type="submit" class="submit-btn">保存する</button>
+        <form method="post" class="row card">
+            <select name="project" class="select" required>
+                <option value="">企画を選択</option>
+                <option value="ramune">ラムネ早飲み</option>
+                <option value="karaoke">カラオケ</option>
+                <option value="sumabura">スマブラ</option>
+            </select>
+            <input type="datetime-local" name="deadline" class="input" required>
+            <button class="btn primary">登録/更新</button>
         </form>
 
-        <a href="../master_menu.php" class="back-btn">← 管理メニューに戻る</a>
+        <div class="card">
+            <?php foreach ($rows as $r): ?>
+                <div class="row" style="align-items:center;">
+                    <div class="input" style="pointer-events:none; flex:1;">
+                        <?= htmlspecialchars($r['project']) ?> / 〆切：<?= htmlspecialchars($r['deadline']) ?> /
+                        状態：<?= $r['is_active'] ? '有効' : '無効' ?>
+                    </div>
+                    <?php if ($r['is_active']): ?>
+                        <form method="post">
+                            <input type="hidden" name="deactivate_id" value="<?= (int) $r['id'] ?>">
+                            <button class="btn danger" onclick="return confirm('無効化しますか？')">無効化</button>
+                        </form>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
 </body>
 
